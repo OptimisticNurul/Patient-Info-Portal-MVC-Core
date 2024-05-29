@@ -1,0 +1,64 @@
+﻿@model PatientInfoPortal.Models.Patient
+
+@{
+    ViewData["Title"] = "Patient Details";
+}
+
+<h1>Patient Details</h1>
+
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Patient</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.DiseaseName)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.DiseaseName)
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Epilepsy)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Epilepsy)
+                        </dd>
+                        <dt class="col-sm-4">
+                            NCDs
+                        </dt>
+                        <dd class="col-sm-8">
+                            @foreach (var ncd in Model.PatientNCDs)
+                            {
+                                <p>@ncd.NCD</p>
+                            }
+                        </dd>
+                        <dt class="col-sm-4">
+                            Allergies
+                        </dt>
+                        <dd class="col-sm-8">
+                            @foreach (var allergy in Model.PatientAllergies)
+                            {
+                                <p>@allergy.Allergy</p>
+                            }
+                        </dd>
+                    </dl>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

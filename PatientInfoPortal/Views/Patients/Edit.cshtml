@@ -1,0 +1,130 @@
+﻿@model PatientInfoPortal.Models.Patient
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container text-center mb-4">
+    <h1 class="display-4">Edit Patient</h1>
+</div>
+
+<div class="container">
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group row">
+            <label asp-for="Name" class="col-sm-2 col-form-label mb-2">Patient Name *</label>
+            <div class="col-sm-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="DiseaseName" class="col-sm-2 col-form-label mb-2">Disease Name *</label>
+            <div class="col-sm-10">
+                <input asp-for="DiseaseName" class="form-control" />
+                <span asp-validation-for="DiseaseName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Epilepsy" class="col-sm-2 col-form-label mb-2">Epilepsy *</label>
+            <div class="col-sm-10">
+                <select asp-for="Epilepsy" class="form-control">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+                <span asp-validation-for="Epilepsy" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row mb-2">
+            <label class="col-sm-2 col-form-label">Other NCDs</label>
+            <div class="col-sm-4">
+                <select multiple id="ncd-left" class="form-control">
+                    @foreach (var ncd in ViewBag.NCDs as List<string>)
+                    {
+                        <option value="@ncd">@ncd</option>
+                    }
+                </select>
+            </div>
+            <div class="col-sm-2 d-flex flex-column justify-content-center">
+                <button type="button" class="btn btn-secondary btn-sm" id="add-ncd">Add ></button>
+                <button type="button" class="btn btn-secondary btn-sm mt-2" id="remove-ncd">< Remove</button>
+            </div>
+            <div class="col-sm-4">
+                <select multiple id="ncd-right" class="form-control" name="SelectedNCDs">
+                    @foreach (var selectedNCD in Model.PatientNCDs ?? new List<PatientNCD>())
+                    {
+                        <option value="@selectedNCD.NCD">@selectedNCD.NCD</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row mb-2">
+            <label class="col-sm-2 col-form-label">Allergies *</label>
+            <div class="col-sm-4">
+                <select multiple id="allergy-left" class="form-control">
+                    @foreach (var allergy in ViewBag.Allergies as List<string>)
+                    {
+                        <option value="@allergy">@allergy</option>
+                    }
+                </select>
+            </div>
+            <div class="col-sm-2 d-flex flex-column justify-content-center">
+                <button type="button" class="btn btn-secondary btn-sm" id="add-allergy">Add ></button>
+                <button type="button" class="btn btn-secondary btn-sm mt-2" id="remove-allergy">< Remove</button>
+            </div>
+            <div class="col-sm-4">
+                <select multiple id="allergy-right" class="form-control" name="SelectedAllergies">
+                    @foreach (var selectedAllergy in Model.PatientAllergies ?? new List<PatientAllergy>())
+                    {
+                        <option value="@selectedAllergy.Allergy">@selectedAllergy.Allergy</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row mt-5 justify-content-center">
+            <div class="col-sm-4 text-center">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#add-ncd').click(function () {
+                $('#ncd-left option:selected').each(function () {
+                    $(this).remove().appendTo('#ncd-right');
+                });
+            });
+
+            $('#remove-ncd').click(function () {
+                $('#ncd-right option:selected').each(function () {
+                    $(this).remove().appendTo('#ncd-left');
+                });
+            });
+
+            $('#add-allergy').click(function () {
+                $('#allergy-left option:selected').each(function () {
+                    $(this).remove().appendTo('#allergy-right');
+                });
+            });
+
+            $('#remove-allergy').click(function () {
+                $('#allergy-right option:selected').each(function () {
+                    $(this).remove().appendTo('#allergy-left');
+                });
+            });
+        });
+    </script>
+}
